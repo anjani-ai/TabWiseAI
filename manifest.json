@@ -1,0 +1,27 @@
+{
+  "manifest_version": 3,
+  "name": "TabWise AI",
+  "version": "1.0",
+  "description": "AI-powered tab manager for better productivity.",
+  "permissions": [
+    "tabs",
+    "storage",
+    "activeTab"
+  ],
+  "background": {
+    "service_worker": "background.js"
+  },
+  "content_scripts": [
+    {
+      "matches": ["<all_urls>"],
+      "js": ["content.js"]
+    }
+  ],
+  "action": {
+    "default_popup": "popup.html"
+  },
+  "host_permissions": [
+    "http://*/*",
+    "https://*/*"
+  ]
+}
