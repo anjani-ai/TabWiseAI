@@ -1,0 +1,48 @@
+class TabUsageTracker {
+    constructor() {
+        this.tabUsage = new Map(); // Stores tab IDs and their last activity timestamp
+        this.inactiveThreshold = 30 * 60 * 1000; // 30 minutes inactivity threshold
+    }
+
+    // Update activity for a tab
+    updateTabActivity(tabId) {
+        const timestamp = new Date().getTime();
+        this.tabUsage.set(tabId, timestamp);
+        console.log(`Tab ${tabId} activity updated at ${new Date(timestamp).toLocaleTimeString()}`);
+    }
+
+    // Check for inactive tabs
+    getInactiveTabs() {
+        const now = new Date().getTime();
+        const inactiveTabs = [];
+        for (const [tabId, lastActive] of this.tabUsage.entries()) {
+            if (now - lastActive > this.inactiveThreshold) {
+                inactiveTabs.push(tabId);
+            }
+        }
+        return inactiveTabs;
+    }
+
+    // Suggest closing inactive tabs
+    suggestClosingInactiveTabs() {
+        const inactiveTabs = this.getInactiveTabs();
+        if (inactiveTabs.length > 0) {
+            console.log(`Consider closing these inactive tabs: ${inactiveTabs.join(", ")}`);
+        } else {
+            console.log("No inactive tabs found.");
+        }
+    }
+}
+
+// Example usage
+const tracker = new TabUsageTracker();
+
+// Simulate tab activity
+tracker.updateTabActivity(1);
+tracker.updateTabActivity(2);
+
+// Simulate time passing (for demonstration, use a timeout)
+setTimeout(() => {
+    tracker.updateTabActivity(2); // Tab 2 becomes active again
+    tracker.suggestClosingInactiveTabs(); // Suggest closing Tab 1
+}, 35 * 60 * 1000); // 35 minutes later
